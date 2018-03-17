@@ -10,14 +10,7 @@ from bs4 import BeautifulSoup
 
 
 def somethingMagic(data):
-    for x in re.findall(r'<a[^>]*>[^<]*?</a>', data)
-        data.lstrip(x)
-
-def magic(data):
-    pattern = re.compile(ur']*>[^<]*?')
-    str = u''
-    print(pattern.search(str))
-
+    return re.findall(r'<a[^>]*>[^<]*?</a>', data)
 
 
 def findID(data):
