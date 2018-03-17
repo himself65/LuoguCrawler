@@ -84,8 +84,9 @@ if __name__:
                     # 此处已经找到答案
                     # 放入答案列队
                     # ans.append(content)
-                    print(luogu.somethingMagic(content))
-                    # print(content)
+                    # print(luogu.somethingMagic(content))
+                    # 这里把href替换还没有写完
+                    print(content)
             # end
             page = page + 1
     # end search
