@@ -41,6 +41,7 @@ if __name__:
     datas = open("cookie.json")
     data = json.loads(datas.read())
     header['cookie'] = data['cookie']
+    # opener
     opener = luogu.getOpener(header)
     for i in range(1, 6):  # 读取50个最近消息
         url = noticeUrl + str(i)
@@ -59,15 +60,19 @@ if __name__:
             userUrl.append(_href)  # 之后判断方便
             userNumber.append(_Id)  # @了你的用户ID
     # end notice find
+
     for i in range(0, len(userNumber)):
         page = 0
-        while True:
+        while True: # 查找每一个@用户
             # 当无法找到message时候退出
             url = getUserUrl(userNumber[i], page)  # 获得网址
             # 浏览器行为
             op = opener.open(url)
             data = op.read()
+            print(data)
             data = luogu.ungzip(data)
+            print('------')
+            print(data)
             data = luogu.getMessage(data)
             data = luogu.gethtml(data)
             html = getHtml(data)
@@ -77,15 +82,10 @@ if __name__:
                 break
             if (page > deep):  # 估计函数不超过deep深度
                 break
-            for item in items:
+            for item in items:  #
                 para = item.find('p')
                 content = str(para)
                 if content.find(str(myID)) != -1:
-                    # 此处已经找到答案
-                    # 放入答案列队
-                    # ans.append(content)
-                    # print(luogu.somethingMagic(content))
-                    # 这里把href替换还没有写完
                     print(content)
             # end
             page = page + 1

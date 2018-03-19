@@ -1,3 +1,6 @@
+"""
+老版本的代码，全是函数，并不实用
+"""
 import gzip
 import http.cookiejar
 import os
