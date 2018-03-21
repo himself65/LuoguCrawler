@@ -11,8 +11,12 @@ import gzip
 __author__ = "Himself65"
 __license__ = "MIT"
 
+defaultURL = "https://www.luogu.org"
+
 
 class LowguBrowser:
+    _headers = {}
+
     def __init__(self):
         """ 初始化访问洛谷
         """
@@ -23,7 +27,7 @@ class LowguBrowser:
         self.setOpener()
 
     def insert_headers(self, key, value):
-        """ 插入到请求头
+        """ 插入值到请求头
         """
         self._headers[key] = value
         self.setOpener()
@@ -38,7 +42,7 @@ class LowguBrowser:
         for key, value in self._headers.items():
             elem = (key, value)
             header.append(elem)
-        self.opener.add_handler = header
+        self.opener.addheaders = header
 
     def openURL(self, url, data=None, timeout=socket._GLOBAL_DEFAULT_TIMEOUT):
         """ 访问地址
@@ -48,8 +52,12 @@ class LowguBrowser:
     def getData(self):
         """ 获取response内容
         """
-        data = self.response.read()
-        return data.decode()
+        return self.response.read()
+
+    def getResponse(self):
+        """ 获取response
+        """
+        return self.response
 
     @staticmethod
     def create_query_string_message(dictionary):
@@ -66,8 +74,8 @@ class LowguBrowser:
             Return "id=761282619&name=himself65"
         """
         s = ""
-        for (key, value) in dictionary:
-            s = s + key + "=" + value + "&"
+        for (key, value) in dictionary.items():
+            s = s + str(key) + "=" + str(value) + "&"
         return s.rstrip("&")
 
     @staticmethod
@@ -90,4 +98,12 @@ class LowguBrowser:
 
         """
         data_json = json.loads(data)
-        return data[name] == accessStatus if True else False
+        return data_json[name] == accessStatus if True else False
+
+    @staticmethod
+    def ungzip(data):
+        try:
+            data = gzip.decompress(data)
+        except:
+            print("解压失败")
+        return data

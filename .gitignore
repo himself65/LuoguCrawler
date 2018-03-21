@@ -104,3 +104,7 @@ ENV/
 .vscode
 cookie.json
 test.json
+
+temp.*
+*.xlsx
+download/
