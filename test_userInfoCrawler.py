@@ -18,7 +18,7 @@ defaultURL = "https://www.luogu.org"
 userURL = "https://www.luogu.org/space/show?uid="
 
 title = ['id', '名字', '头像', '总提交数', 'AC数', '贡献', '活跃', '积分', '用户类型', '注册时间']
-wbName = 'luogu.xlsx'
+wbName = 'luogu2.xlsx'
 wsName = '1'
 downloadPath = 'download/'
 imagePath = downloadPath + 'img/'
@@ -57,7 +57,7 @@ def crawler(taskque, que):
             browser.openURL(messageURL)
             ## getData
             html = browser.getData()
-            html = LowguBrowser.ungzip(html)
+            html = LuoguBrowser.ungzip(html)
             soup = BeautifulSoup(html, 'html.parser')
             # print(soup)
             board = soup.find(
@@ -154,8 +154,8 @@ def init():
     if not os.path.exists(wbName):
         print('正在创建Excel...')
         wb = Workbook()
-        wb.save(wbName)
         wb.create_sheet(title=wsName)
+        wb.save(wbName)
         print('done...')
     print('初始化完成')
 
@@ -181,10 +181,12 @@ def backgroundThread(saveQue, taskQue):
 
 
 def main():
+    # MARK -- 参考答案：https://stackoverflow.com/questions/27835619/urllib-and-ssl-certificate-verify-failed-error
     ssl._create_default_https_context = ssl._create_unverified_context
     # init
     init()
     # load data
+    print('loading...')
     wb = load_workbook(wbName)
     sheet = wb[wsName]
     sheet.append(title)
@@ -205,7 +207,9 @@ def main():
         target=backgroundThread,
         name='backgroundThread',
         args=(saveQue, taskQue))
+    print('loading...')
     try:
+        print('start!')
         gt.start()
         gt.join()
         for t in thread:
@@ -220,5 +224,4 @@ def main():
 
 
 if __name__:
-    # MARK -- 参考答案：https://stackoverflow.com/questions/27835619/urllib-and-ssl-certificate-verify-failed-error
     main()
