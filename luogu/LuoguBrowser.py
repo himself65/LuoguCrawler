@@ -14,7 +14,7 @@ __license__ = "MIT"
 defaultURL = "https://www.luogu.org"
 
 
-class LowguBrowser:
+class LuoguBrowser:
     _headers = {}
 
     def __init__(self):

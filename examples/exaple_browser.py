@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from lowgu import *
+from luogu import *
 
 import ssl
 import json
@@ -20,7 +20,7 @@ userUrl = []
 # MARK -- 参考答案：https://stackoverflow.com/questions/27835619/urllib-and-ssl-certificate-verify-failed-error
 ssl._create_default_https_context = ssl._create_unverified_context
 
-browser = LowguBrowser()
+browser = LuoguBrowser()
 cookie = getCookie()
 browser.insert_headers('cookie', cookie)
 browser.openURL(defaultURL)

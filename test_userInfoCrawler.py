@@ -1,47 +1,58 @@
 #!/usr/bin/env python
-from lowgu import *
+from luogu import *
 from openpyxl import Workbook
+from openpyxl import load_workbook
 from bs4 import BeautifulSoup
-from time import time
-from urllib import request
+from urllib import request, error
 from queue import Queue
 
+import time
 import queue
 import os
 import ssl
 import json
 import threading
-import multiprocessing
+import linecache
 
 defaultURL = "https://www.luogu.org"
 userURL = "https://www.luogu.org/space/show?uid="
 
-event = multiprocessing.Event()
-event.set()
+title = ['id', '名字', '头像', '总提交数', 'AC数', '贡献', '活跃', '积分', '用户类型', '注册时间']
+wbName = 'luogu.xlsx'
+wsName = '1'
+downloadPath = 'download/'
+imagePath = downloadPath + 'img/'
+taskPath = downloadPath + 'task/'
 
 
 def download_img(url, userName):
     """ 下载图片到download/文件夹下
     """
-    loc = 'download/' + userName + '.png'
+    loc = imagePath + userName + '.png'
     if os.path.exists(loc):
         return
     try:
         # 下载图片
         request.urlretrieve(url, filename=loc)
     except:
-        print("\n404")
+        print("\n无法下载文件")
 
 
-def crawler(begin, end, que):
-    """ [begin, end)
+def crawler(taskque, que):
+    """ get task from taskque
     """
-    for i in range(begin, end):
+    try:
+        # Init browser
+        browser = LuoguBrowser()
+        browser.openURL(defaultURL)
+    except:
+        print("无法创建")
+        return
+    while True:
+        i = taskque.get(block=True, timeout=1)
         try:
             # Get messageURL
             messageURL = userURL + str(i)
-            # Init browser
-            browser = LowguBrowser()
             ## View Web
             browser.openURL(messageURL)
             ## getData
@@ -72,68 +83,142 @@ def crawler(begin, end, que):
             registeredTime = items[6].find('span', {
                 'class': 'lg-right'
             }).get_text()
-            # download image
+            # make t
             t = [
                 i, userName, avatar, Num, ACNum, contribute, active, integral,
                 Type, registeredTime
             ]
             # 下载图片
             download_img(avatar, str(i))
+            # finish
+            taskque.task_done()
             que.put(t)
-            # print("放到队列中：", i)
+        except AttributeError:
+            que.put([i, '无此人'])
+            print('找不到id:', i)
         except:
-            que.put([i, '???'])
-            continue
+            print('未知错误')
 
 
 def saveThread(que, sheet):
-    thread = threading.current_thread()
-    while thread.isAlive():
+    while True:
         try:
             t = que.get(block=True, timeout=60)
-            sheet.append(t)
+            if t[1] != '-1':
+                sheet.append(t)
+                path = taskPath + str(t[0])
+                if os.path.exists(path):
+                    os.remove(path)
         except queue.Empty:
-            thread.is_alive = False
-            break
+            return
         que.task_done()
-        size = que.qsize()
-        if size > 0:
-            print("还有大约任务数:", size, flush=True)
 
 
-wbName = 'luogu.xlsx'
+def getLine(num):
+    """ 返回是否为true
+    """
+    if os.path.exists(taskPath + str(num)):
+        return True
+    return False
+
+
+def getTaskThread(que, filePath):
+    """ 创建任务列队
+    """
+    # thread = threading.current_thread()
+    tgroup = os.listdir(taskPath)
+    for item in tgroup:
+        try:
+            que.put(int(item))
+        except ValueError:
+            print(item)
+    print('剩余任务数量:', que.qsize())
+
+
+def init():
+    print('初始化中')
+    if not os.path.exists(downloadPath):
+        print('正在创建文件夹download...')
+        os.makedirs(downloadPath)
+        print('done...')
+    if not os.path.exists(taskPath):
+        print('正在创建task文件')
+        os.makedirs(taskPath)
+        # 第一次跑脚本时候使用
+        taskMaker()
+        print('done...')
+    if not os.path.exists(imagePath):
+        print('正在创建文件夹image...')
+        os.makedirs(imagePath)
+        print('done...')
+    if not os.path.exists(wbName):
+        print('正在创建Excel...')
+        wb = Workbook()
+        wb.save(wbName)
+        wb.create_sheet(title=wsName)
+        print('done...')
+    print('初始化完成')
+
+
+def taskMaker(start=1, end=90001):
+    """ 初始化任务表
+    """
+    if not os.path.exists(taskPath):
+        os.makedirs(taskPath)
+    for i in range(start, end):
+        f = open(taskPath + str(i), mode='w')
+        f.close()
+    return
+
+
+def backgroundThread(saveQue, taskQue):
+    while True:
+        sz = saveQue.qsize()
+        print('待保存量:', sz)
+        sz = taskQue.qsize()
+        print('剩余任务:', sz)
+        time.sleep(30)
 
 
 def main():
-    title = ['id', '名字', '头像', '总提交数', 'AC数', '贡献', '活跃', '积分', '用户类型', '注册时间']
-    #
-    wb = Workbook(write_only=True)
-    thread = []
-    # queue
-    que = Queue()
-    sheet = wb.create_sheet(title="luogu分析")
+    ssl._create_default_https_context = ssl._create_unverified_context
+    # init
+    init()
+    # load data
+    wb = load_workbook(wbName)
+    sheet = wb[wsName]
     sheet.append(title)
-    # saveThread 保存线程
-    j = 1
-    len = 10000
-    for i in range(1, 9):  # 线程
-        begin = j
-        end = j + len
+
+    # thread
+    saveQue = Queue()
+    taskQue = Queue()
+    thread = []
+    for i in range(0, 9):  # 爬虫线程列队
         t = threading.Thread(
-            target=crawler, name=str(i), args=(begin, end, que))
+            target=crawler, name=str(i), args=(taskQue, saveQue))
         thread.append(t)
-        j += len
-    st = threading.Thread(target=saveThread, args=(que, sheet))
-    for i in range(0, 8):
-        thread[i].start()
-    st.start()
-    for i in range(0, 8):
-        thread[i].join()
-    st.join()
-    wb.save(wbName)
+    st = threading.Thread(
+        target=saveThread, name='saveThread', args=(saveQue, sheet))
+    gt = threading.Thread(
+        target=getTaskThread, name='getTaskThread', args=(taskQue, taskPath))
+    bg = threading.Thread(
+        target=backgroundThread,
+        name='backgroundThread',
+        args=(saveQue, taskQue))
+    try:
+        gt.start()
+        gt.join()
+        for t in thread:
+            t.start()
+        st.start()
+        bg.start()
+        st.join()
+    except:
+        print("线程错误")
+    finally:
+        wb.save(wbName)
 
 
 if __name__:
     # MARK -- 参考答案：https://stackoverflow.com/questions/27835619/urllib-and-ssl-certificate-verify-failed-error
-    ssl._create_default_https_context = ssl._create_unverified_context
     main()
