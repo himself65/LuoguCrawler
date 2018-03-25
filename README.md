@@ -8,11 +8,11 @@
 
 ## 项目分支 —— 洛谷用户爬取
 
-效果如下，电脑太慢暂时还没有完整的跑完过九万的数据
+成果如下：
 
 ![03](/img/03.png)
 
-[脚本](/test_userInfoCrawler.py)
+[脚本](/example_userInfoCrawler.py)
 
 ## 使用截图
 
