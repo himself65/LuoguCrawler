@@ -6,15 +6,25 @@
 
 查看别人@你的犇犇
 
-## 项目分支 —— 洛谷用户爬取
+## 项目分支1 —— 下载你的所有AC代码
 
-成果如下：
+效果图：
+
+快速下载你所有的AC代码
+
+![04](/img/04.png)
+
+[脚本地址](/example_codedownload.py)
+
+## 项目分支2 —— 洛谷用户爬取
+
+多线程爬下用户信息
 
 ![03](/img/03.png)
 
-[脚本](/example_userInfoCrawler.py)
+[脚本地址](/example_userInfoCrawler.py)
 
-## 使用截图
+## 其他使用截图
 
 ![01](/img/01.png)
 
@@ -22,7 +32,7 @@
 
 ## 使用须知
 
-自己在main.py同文件夹里创建cookie.json 然后填入你的cookie，如下。
+主目录创建cookie文件，然后填入以下内容：
 
 ``` json
 {
@@ -30,7 +40,7 @@
 }
 ```
 
-其次，在main.py中修改
+其次，在各个脚本中修改需填内容，例如：
 
 ``` python
 myUrl = "https://www.luogu.org/space/show?uid=72813"
@@ -41,10 +51,10 @@ myID = 72813
 
 详见[TODO.md](TODO.md)
 
-### 其他
+### 项目灵感
 
-本人被洛谷拒之后突然灵感写下，这东西应该没有侵犯用户协议吧（逃。不过本人的确太弱了，还需努力。
+本人被洛谷拒之后突然灵感写下，这东西应该没有侵犯用户协议吧应该。
 
-### LICENSE
+### 开源协议
 
 LowguNotice is available under the MIT license. See the [LICENSE](LICENSE) file for more information.
