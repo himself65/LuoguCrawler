@@ -55,6 +55,6 @@ myID = 72813
 
 本人被洛谷拒之后突然灵感写下，这东西应该没有侵犯用户协议吧应该。
 
-### 开源协议
+## 开源协议
 
 LowguNotice is available under the MIT license. See the [LICENSE](LICENSE) file for more information.
