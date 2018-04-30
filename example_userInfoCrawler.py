@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 from luogu import *
 from openpyxl import Workbook
 from openpyxl import load_workbook
@@ -45,11 +46,17 @@ def crawler(taskque, que):
         # Init browser
         browser = LuoguBrowser()
         browser.openURL(defaultURL)
-    except:
+    except Exception as e:
         print("无法创建")
+        print(e)
         return
     while True:
-        i = taskque.get(block=True, timeout=1)
+        try:
+            i = taskque.get(block=True, timeout=1)
+        except queue.Empty:
+            print('无更多任务')
+            print('请等待结束')
+            return
         try:
             # Get messageURL
             messageURL = userURL + str(i)
@@ -96,8 +103,8 @@ def crawler(taskque, que):
         except AttributeError:
             que.put([i, '无此人'])
             print('找不到id:', i)
-        except:
-            print('未知错误')
+        except Exception as e:
+            print(e)
 
 
 def saveThread(que, sheet):
@@ -160,7 +167,7 @@ def init():
     print('初始化完成')
 
 
-def taskMaker(start=1, end=90001):
+def taskMaker(start=1, end=100):
     """ 初始化任务表
     """
     if not os.path.exists(taskPath):
