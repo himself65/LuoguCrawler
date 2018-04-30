@@ -1,8 +1,8 @@
 # LuoguNotice
 
-即时回复别人的犇犇，从luogu上快速的爬下题面（无数据）
+【暂时停更】[等待洛谷4发布](https://github.com/Himself65/LuoguCrawler/issues/1)
 
-(当然以上都还没开始做)
+提供各种洛谷爬虫
 
 查看别人@你的犇犇
 
