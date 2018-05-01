@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""
+注意：
+    start_num end_num为需手动填写 
+"""
 from luogu import *
 from openpyxl import Workbook
 from openpyxl import load_workbook
@@ -15,9 +19,14 @@ import json
 import threading
 import linecache
 
+# 必填内容
+start_num = 1
+end_num = 1000
+
+# 洛谷网站
 defaultURL = "https://www.luogu.org"
 userURL = "https://www.luogu.org/space/show?uid="
-
+# 此处不建议修改
 title = ['id', '名字', '头像', '总提交数', 'AC数', '贡献', '活跃', '积分', '用户类型', '注册时间']
 wbName = 'luogu2.xlsx'
 wsName = '1'
@@ -152,7 +161,7 @@ def init():
         print('正在创建task文件')
         os.makedirs(taskPath)
         # 第一次跑脚本时候使用
-        taskMaker()
+        taskMaker(start=start_num, end=end_num)
         print('done...')
     if not os.path.exists(imagePath):
         print('正在创建文件夹image...')
