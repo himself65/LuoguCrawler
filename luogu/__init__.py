@@ -1,2 +1,6 @@
+from __future__ import absolute_import
+
 from .LuoguBrowser import LuoguBrowser
-from .IO import IO
+
+from .LuoguException import *
+from .IO import *
