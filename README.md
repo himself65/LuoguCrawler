@@ -1,22 +1,36 @@
 # LuoguNotice
 
-【暂时停更】[等待洛谷4发布](https://github.com/Himself65/LuoguCrawler/issues/1)
+【暂时停更】[等待洛谷 4 发布](https://github.com/Himself65/LuoguCrawler/issues/1)
 
-提供各种洛谷爬虫
+* 快速爬取洛谷上各方面信息
 
-查看别人@你的犇犇
+## Quick Start
 
-## 项目分支1 —— 下载你的所有AC代码
+注意：luogu/ 文件夹为必备内容，**请不要直接拷贝 example\*.py 代码直接运行**
+
+1.  下载至本地，并解压
+
+2.  运行相关脚本
+
+```bash
+cd LuoguCrawler
+
+py example_download.py
+```
+
+## Scripts
+
+* 下载你的所有 AC 代码
 
 效果图：
 
-快速下载你所有的AC代码
+快速下载你所有的 AC 代码
 
 ![04](/img/04.png)
 
 [脚本地址](/example_codedownload.py)
 
-## 项目分支2 —— 洛谷用户爬取
+* 洛谷用户爬取
 
 多线程爬下用户信息
 
@@ -24,37 +38,31 @@
 
 [脚本地址](/example_userInfoCrawler.py)
 
-## 其他使用截图
+* 其他脚本截图
 
 ![01](/img/01.png)
 
 ![02](/img/02.png)
 
-## 使用须知
+## Terms and Conditions
 
-主目录创建cookie文件，然后填入以下内容：
+* 修改 config.json 内容
 
-``` json
-{
-    "cookie": "这里填你的luoguCookie"
-}
-```
+* 某些特定脚本或许有需要配置的地方（将会修复）
 
-其次，在各个脚本中修改需填内容，例如：
-
-``` python
+```python
 myUrl = "https://www.luogu.org/space/show?uid=72813"
 myID = 72813
 ```
 
-## 待办清单
+## TODO
 
 详见[TODO.md](TODO.md)
 
-### 项目灵感
+### Credits
 
-本人被洛谷拒之后突然灵感写下，这东西应该没有侵犯用户协议吧应该。
+感谢洛谷开发组提供的灵感
 
-## 开源协议
+## LICENSE
 
 LowguNotice is available under the MIT license. See the [LICENSE](LICENSE) file for more information.

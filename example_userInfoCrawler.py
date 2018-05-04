@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 注意：
-    start_num end_num为需手动填写 
+    1. 服务端上需自行配置代理
+    2. start_num end_num 为需手动填写
 """
 from luogu import *
 from openpyxl import Workbook
