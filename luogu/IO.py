@@ -20,7 +20,7 @@ def saveToFile(fileLocation, content):
     f.close()
 
 
-def getJson(fileLocation='cookie.json'):
+def getJson(fileLocation='config.json'):
     """
     获取Json文件内容，并转义到字典
     """
