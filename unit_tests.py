@@ -13,14 +13,8 @@ def BrowserDefaultTest():
     单元测试部分
     测试内容：LuoguBrowser是否可以正常使用
     """
-    userNumber = []
-    userUrl = []
     # MARK -- 参考答案：https://stackoverflow.com/questions/27835619/urllib-and-ssl-certificate-verify-failed-error
     ssl._create_default_https_context = ssl._create_unverified_context
-
-    # Get messageURL
-    messageURL = mySpaceNoticeURL + LuoguBrowser.create_query_string_message(
-        AcInf)
     # Init browser
     browser = LuoguBrowser()
     ## View Web
