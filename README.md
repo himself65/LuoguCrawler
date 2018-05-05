@@ -1,5 +1,7 @@
 # LuoguNotice
 
+[![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) ![language](https://img.shields.io/badge/language-python3-blue.svg) [![CircleCI](https://circleci.com/gh/Himself65/LuoguCrawler.svg?style=svg)](https://circleci.com/gh/Himself65/LuoguCrawler)
+
 【暂时停更】[等待洛谷 4 发布](https://github.com/Himself65/LuoguCrawler/issues/1)
 
 * 快速爬取洛谷上各方面信息
