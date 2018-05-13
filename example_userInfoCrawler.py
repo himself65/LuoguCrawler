@@ -79,7 +79,6 @@ def crawler(taskque, que):
             # print(soup)
             board = soup.find(
                 'ul', {'class': 'am-list am-list-static lg-summary-list'})
-
             items = board.find_all("li")
             # 0
             userName = soup.find('span', {'name': 'username'}).get_text()

@@ -6,7 +6,7 @@ import os
 import ssl
 
 cookie = '这里写你的cookie'
-ID = 72813 # 这里写你的id
+ID = 72813  # 这里写你的id
 mainUrl = 'https://www.luogu.org'
 pageUrl = 'https://www.luogu.org/recordnew/lists?uid=' + str(ID) + '&page='
 downloadPath = 'download/'

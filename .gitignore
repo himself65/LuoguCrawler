@@ -114,3 +114,4 @@ download/
 */*/.DS_Store
 .test
 *.icloud
+*.db

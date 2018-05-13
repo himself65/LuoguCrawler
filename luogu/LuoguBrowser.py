@@ -35,7 +35,9 @@ def get_agent():
     return sample(user_agents, 1)[0]
 
 
-class LuoguBrowser:
+class LuoguBrowser(object):
+    """
+    """
     _headers = {}
 
     def __init__(self):
