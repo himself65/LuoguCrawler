@@ -31,8 +31,21 @@ DATABASE = {
 DEBUG = True
 
 
+def task_producer(a, b):
+    """生成任务 区间[a, b]"""
+    db_name = DATABASE['name']
+    db = sqlite3.connect(db_name)
+    cursor = db.cursor()
+    for i in range(a, b + 1):
+        create_task_sql = '''INSERT INTO TASK(ID)
+                        (%d);''' % (i)
+        cursor.executescript(create_task_sql)
+    db.close()
+
+
 def get_task(task_que: Queue):
     """任务队列 TODO"""
+
     pass
 
 
@@ -142,6 +155,7 @@ def crawler(task_que: Queue, save_que: Queue):
 
 
 def get_database():
+    """获取数据库"""
     name = DATABASE['name'] + '.db'
     database = sqlite3.connect(name)
     return database
@@ -152,16 +166,31 @@ def init():
     cursor = db.cursor()
     # 创建表
     create_table_sql = '''CREATE TABLE IF NOT EXISTS USER(
-                        ID INT PRIMARY KEY     NOT NULL,
-                        NAME           TEXT    NOT NULL,
-                        SUBMIT_NUM         INT,
-                        AC_NUM             INT,
-                        CONTRIBUTE         INT,
-                        ACTIVE             INT,
-                        INTEGRAL           INT,
-                        CREATED_TIME       TEXT
+                            ID INT  PRIMARY KEY NOT NULL,
+                            NAME TEXT     NOT NULL,
+                            SUBMIT_NUM         INT,
+                            AC_NUM             INT,
+                            CONTRIBUTE         INT,
+                            ACTIVE             INT,
+                            INTEGRAL           INT,
+                            CREATED_TIME       TEXT
+                        );
+                        CREATE TABLE IF NOT EXISTS TASK(
+                            ID INT PRIMARY KEY NOT NULL
                         );'''
+    check_tasks_sql = '''SELECT ID FROM TASK;'''
+    user_list = '''SELECT * FROM USER'''
     cursor.executescript(create_table_sql)
+    #
+    cursor.executescript(check_tasks_sql)
+    task_list = cursor.fetchall()
+    #
+    cursor.executescript(user_list)
+    if len(task_list) == 0:
+        print("finished!")
+
+    # close database
+    db.close()
 
 
 def test(tq: Queue, sq: Queue):
