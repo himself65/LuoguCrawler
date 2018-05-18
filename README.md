@@ -46,7 +46,7 @@ py example_download.py
 
 ![02](/img/02.png)
 
-## Terms and Conditions
+## Config
 
 * 修改 config.json 内容
 
