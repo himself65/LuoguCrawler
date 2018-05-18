@@ -1,4 +1,4 @@
-# LuoguNotice
+# LuoguCrawler | 洛谷爬虫
 
 [![Build Status](https://travis-ci.org/Himself65/LuoguCrawler.svg?branch=master)](https://travis-ci.org/Himself65/LuoguCrawler) [![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) ![language](https://img.shields.io/badge/language-python3-blue.svg)
 
@@ -63,7 +63,7 @@ myID = 72813
 
 ### Credits
 
-感谢洛谷开发组提供的灵感
+感谢洛谷开发组提供的灵感，也感谢使用我 Repo 的各位
 
 ## LICENSE
 
