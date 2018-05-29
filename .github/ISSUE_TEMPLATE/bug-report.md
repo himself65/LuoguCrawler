@@ -15,8 +15,8 @@ If applicable, add screenshots to help explain your problem.
 
 **Other**
 
- - OS: [e.g. iOS]
- - Version [e.g. 22]
+ - OS: [e.g. Windows10, Windows7, Macos]
+ - Version [e.g. Python3.6]
 
 **Additional context**
 Add any other context about the problem here.
