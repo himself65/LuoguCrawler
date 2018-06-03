@@ -81,7 +81,7 @@ def save_task(save_que: Queue):
         name = item['name']
         sub_num = item['submit_num']
         ac_num = item['ac_num']
-        contribute = itme['contribute']
+        contribute = item['contribute']
         active = item['active']
         integral = item['integral']
         created_time = item['created_time']

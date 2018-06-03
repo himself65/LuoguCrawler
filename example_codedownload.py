@@ -5,12 +5,14 @@ from bs4 import BeautifulSoup
 import os
 import ssl
 
-cookie = '这里写你的cookie'
+cookie = '这里填入Cookies'
 ID = 72813  # 这里写你的id
 mainUrl = 'https://www.luogu.org'
 pageUrl = 'https://www.luogu.org/recordnew/lists?uid=' + str(ID) + '&page='
 downloadPath = 'download/'
 codePath = downloadPath + 'code/'
+
+DEBUG = False
 
 # browser
 browser = LuoguBrowser()
@@ -46,6 +48,8 @@ def searchPage(start, end):
     """ [start, end)
     """
     for i in range(start, end):
+        if DEBUG:
+            print("现在是第%d页" % i)
         url = getPageUrl(i)
         browser.openURL(url)
         data = browser.getData()
@@ -55,11 +59,14 @@ def searchPage(start, end):
             'class': 'lg-content-table-left'
         }).find_all('div', {'class': 'am-g lg-table-bg0 lg-table-row'})
         for item in items:
-            point = item.find('strong', {'class': 'lg-fg-green'})
+            point = item.find('span',
+                              {'class': 'am-badge am-radius lg-bg-green'})
             if point == None:
                 continue
             acurl = item.find_all(
                 'div', {'class': 'lg-inline-up'})[1].find('a')['href']
+            if DEBUG:
+                print("找到链接: %s" % acurl)
             downloadCode(mainUrl + acurl)
 
 
