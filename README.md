@@ -2,9 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Himself65/LuoguCrawler.svg?branch=master)](https://travis-ci.org/Himself65/LuoguCrawler) [![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) ![language](https://img.shields.io/badge/language-python3-blue.svg)
 
-【暂时停更】[等待洛谷 4 发布](https://github.com/Himself65/LuoguCrawler/issues/1)
-
-* 快速爬取洛谷上各方面信息
+【停止更新】lin_toto 明确禁止了洛谷的脚本使用
 
 ## Quick Start
 
@@ -22,7 +20,7 @@ py example_download.py
 
 ## Scripts
 
-* 下载你的所有 AC 代码
+- 下载你的所有 AC 代码
 
 效果图：
 
@@ -32,7 +30,7 @@ py example_download.py
 
 [脚本地址](/example_codedownload.py)
 
-* 洛谷用户爬取
+- 洛谷用户爬取
 
 多线程爬下用户信息
 
@@ -40,7 +38,7 @@ py example_download.py
 
 [脚本地址](/example_userInfoCrawler.py)
 
-* 其他脚本截图
+- 其他脚本截图
 
 ![01](/img/01.png)
 
@@ -48,9 +46,9 @@ py example_download.py
 
 ## Config
 
-* 修改 config.json 内容
+- 修改 config.json 内容
 
-* 某些特定脚本或许有需要配置的地方（将会修复）
+- 某些特定脚本或许有需要配置的地方（将会修复）
 
 ```python
 myUrl = "https://www.luogu.org/space/show?uid=72813"
