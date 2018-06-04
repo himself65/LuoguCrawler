@@ -2,17 +2,18 @@
 from luogu import *
 from bs4 import BeautifulSoup
 
+import asyncio
 import os
 import ssl
 
-cookie = '这里填入Cookies'
+cookie = 'UM_distinctid=1628f18d8fa568-0c77f61d2d6685-336c7b05-100200-1628f18d8fb74e; __client_id=4481c1bb80e250e3e1b43eb658c1f4882b4c98a5; CNZZDATA5476811=cnzz_eid%3D657620256-1522818985-%26ntime%3D1528115158'
 ID = 72813  # 这里写你的id
 mainUrl = 'https://www.luogu.org'
 pageUrl = 'https://www.luogu.org/recordnew/lists?uid=' + str(ID) + '&page='
 downloadPath = 'download/'
 codePath = downloadPath + 'code/'
 
-DEBUG = False
+DEBUG = True
 
 # browser
 browser = LuoguBrowser()
@@ -37,16 +38,21 @@ def downloadCode(url):
     data = browser.getData()
     html = browser.ungzip(data).decode()
     soup = BeautifulSoup(html, 'html.parser')
-    text = soup.find('code').get_text()
-    name = soup.find('div', {'class': 'lg-toolbar'}).find('h1').get_text()
-    print(name)
-    saveLocal(name, text)
-    print('下载完成', url)
+    try:
+        text = soup.find('code').get_text()
+        name = soup.find('h1').get_text()
+        saveLocal(name, text)
+        print('下载完成:%s' % url)
+        return True
+    except AttributeError:
+        print('下载异常:%s' % url)
+        return False
 
 
 def searchPage(start, end):
     """ [start, end)
     """
+    count = 0
     for i in range(start, end):
         if DEBUG:
             print("现在是第%d页" % i)
@@ -59,15 +65,21 @@ def searchPage(start, end):
             'class': 'lg-content-table-left'
         }).find_all('div', {'class': 'am-g lg-table-bg0 lg-table-row'})
         for item in items:
-            point = item.find('span',
-                              {'class': 'am-badge am-radius lg-bg-green'})
-            if point == None:
+            point = item.find('strong', {'class': 'lg-fg-green'})
+            if point is None:
                 continue
-            acurl = item.find_all(
-                'div', {'class': 'lg-inline-up'})[1].find('a')['href']
-            if DEBUG:
-                print("找到链接: %s" % acurl)
-            downloadCode(mainUrl + acurl)
+            acurl = item.find_all('a', {
+                'target': '_blank',
+                'data-pjax': ''
+            })[0]['href']
+            import re
+            if re.search(acurl, '/record/show?rid=*'):
+                if DEBUG:
+                    print(acurl)
+                continue
+            if downloadCode(mainUrl + acurl):
+                count += 1
+    print('代码共', count)
 
 
 def main():

@@ -247,6 +247,7 @@ def test(tq: Queue, sq: Queue):
 
 def main(tq: Queue, sq: Queue):
     # Create Theads
+    threads_list = []
     for td_id in range(1, Threads_Number + 1):
         td = threading.Thread(target=crawler, args=(tq, sq), name=str(td_id))
         threads_list.append(td)

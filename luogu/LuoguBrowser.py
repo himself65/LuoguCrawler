@@ -69,12 +69,16 @@ class LuoguBrowser(object):
             header.append(elem)
         self.opener.addheaders = header
 
-    def openURL(self, url, data=None, timeout=socket._GLOBAL_DEFAULT_TIMEOUT):
+    def openURL(self, url, data=None, timeout=None):
         """
         访问地址
         """
+        import socket
+        if timeout is None:
+            timeout = socket._GLOBAL_DEFAULT_TIMEOUT
         if url is None:
             raise AttributeError('url is none')
+        # url = url.encode('UTF8', errors='strict')
         self.response = self.opener.open(url, data=data, timeout=timeout)
 
     def getData(self):
